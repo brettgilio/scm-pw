@@ -1,0 +1,327 @@
+body {
+    color: #000;
+    background-color: #fbfbfb;
+    font-size: 24px;
+    font-family: 'Linux Libertine',serif;
+    line-height: 140%;
+    text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+    font-family: 'Linux Biolinum',sans;
+}
+
+h1 {
+    font-size: 150%;
+    line-height: 110%;
+}
+
+h2 {
+    font-size: 115%;
+}
+
+h3 {
+    font-size: 100%;
+}
+
+a {
+    color: #306082;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #306082;
+    background-color: #f3f3f3; /* f3f3f3 */ 
+}
+
+a:visited {
+    color: #306082;
+}
+
+pre {
+    font-family: "Inconsolata",monospace;
+    line-height: 110%;
+    min-width: 100%;
+    padding: 1rem;
+    background-color: #282c34; /* 222034 */
+    color: #a4abb7; /* deeed6 */
+    border-radius: 4px;
+    display: inline-block;
+}
+
+code {
+    font-family: "Inconsolata",monospace;
+}
+
+blockquote {
+    padding-left: 2rem;
+    border-left: 5px solid #eee;
+    font-style: italic;
+}
+
+/* Footer */
+
+footer {
+    border-top: 1px solid #000; /* ccc */
+    font-size: 75%;
+    text-align: center;
+}
+
+.copyright {
+    text-align: center;
+}
+
+.cc-button {
+    margin-left: 1rem;
+}
+
+/* Navigation */
+
+.nav {
+    font-family: 'Linux Biolinum',sans;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 0rem;
+    border-bottom: 1px solid #000; /* eee */
+}
+
+.nav ul {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.nav li {
+    display: inline;
+    padding: 1rem;
+}
+
+.nav li:first-child {
+    padding-left: 0;
+}
+
+.nav a {
+    display: inline-block;
+    color: #000;
+}
+
+.nav a:hover {
+    color: #000;
+}
+
+.nav a:visited {
+    color: #000;
+}
+
+.yav {
+    font-family: 'Linux Biolinum',sans;
+    font-size: 20px;
+    font-style: italic;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    margin-bottom: 3rem;
+    # border-bottom: 1px solid #000; /* eee */
+    text-align: center;
+}
+
+.yav ul {
+    list-style-type: none;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+
+.yav li {
+    display: inline;
+    padding: 1rem;
+}
+
+.yav li:first-child {
+    padding-left: 0;
+}
+
+.yav a {
+    display: inline-block;
+    color: #000;
+}
+
+.yav a:hover {
+    color: #000;
+}
+
+.yav a:visited {
+    color: #000;
+}
+
+@media (min-width: 1140px) {
+    .container {
+        margin-left: 14rem;
+        margin-right: 4rem;
+        max-width: 52rem;
+    }
+}
+
+@media (min-width: 800px) and (max-width: 1140px) {
+    .container {
+        margin-left: 6rem;
+        margin-right: 4rem;
+        max-width: 52rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .container {
+        margin: 1rem;
+    }
+}
+
+.fade-text {
+    color: #ddd;
+}
+
+/* Summaries */
+
+.summary {
+    margin-bottom: 3rem;
+}
+
+.summary .date {
+    margin-bottom: 0rem;
+}
+
+.summary p {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Posts */
+
+.author {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    color: #666;
+    font-size: 80%;
+}
+
+.date {
+    margin-top: -1rem;
+    margin-bottom: 2rem;
+    color: #666;
+    font-size: 80%;
+}
+
+.post img, .centered-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    padding: 0px;
+    border-radius: 4px;
+}
+
+.post video {
+    display: block;
+    margin: 0 auto;
+    padding: 0px;
+    max-width: 100%;
+}
+
+.caption {
+    text-align: center;
+    margin: 0;
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+
+/* Syntax Highlighting */
+
+.syntax-special, .syntax-element {
+    color: #c678dd;
+    font-weight: bold;
+}
+
+.syntax-string {
+    color: #98be65;
+}
+
+.syntax-keyword, .syntax-attribute {
+    color: #51afef;
+}
+
+.syntax-comment {
+    color: #5b6268;
+}
+
+.syntax-open, .syntax-close {
+    color: #688;
+}
+
+/* RESUME */
+
+.resume-name {
+    text-align: center;
+}
+
+.resume-sub-name {
+    text-align: center;
+    font-size: 80%;
+    margin-top: -1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.resume-contact {
+    text-align: center;
+    font-size: 80%;
+    margin-top: -1.5rem;
+}
+
+.resume-update {
+    text-align: center;
+    font-size: 65%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+.resume-category {
+    text-align: left;
+    border-bottom: 1px solid #000;
+    margin-top: 3rem;
+}
+
+.resume-education {
+    
+}
+
+.floatleft {
+    float: left;
+    font-size: 20px;
+}
+
+.floatright {
+    float: right;
+    color: #5b6268;
+    font-size: 20px;
+    font-style: italic;
+}
+
+.educ {
+    float: left;
+    font-size: 20px;
+    margin-top: -0.7rem;
+    text-indent: 20px;
+}
+
+.educit {
+    float: left;
+    font-size: 20px;
+    margin-top: -1.3rem;
+    text-indent: 20px;
+    font-style: italic;
+}
+
+.read {
+    font-size: 20px;
+    font-style: italic;
+}
