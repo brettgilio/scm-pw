@@ -46,3 +46,102 @@
          (href "https://creativecommons.org/licenses/by-sa/4.0/"))
       (img (@ (src "https://licensebuttons.net/l/by-sa/4.0/80x15.png")))))
 
+(define (link name uri)
+  `(a (@ (href ,uri)) ,name))
+
+(define* (centered-image url #:optional alt)
+  `(img (@ (class "centered-image")
+           (src ,url)
+           ,@(if alt
+                 `((alt ,alt))
+                 '()))))
+
+(define (first-paragraph post)
+  (let loop ((sxml (post-sxml post))
+             (result '()))
+    (match sxml
+      (() (reverse result))
+      ((or (('p ...) _ ...) (paragraph _ ...))
+       (reverse (cons paragraph result)))
+      ((head . tail)
+       (loop tail (cons head result))))))
+
+(define scm-pw-theme
+  (theme #:name "scm-pw"
+         #:layout
+         (lambda (site title body)
+           `((doctype "html")
+             (head
+              (meta (@ (charset "utf-8")))
+              (title ,(string-append title " — " (site-title site)))
+              ,(stylesheet "reset")
+              ,(stylesheet "fonts")
+              ,(stylesheet "scm"))
+             (body
+              (div (@ (class "container"))
+                   (div (@ (class "nav"))
+                        (ul (li ,(link "'(SCM.PW)" "/"))
+                            (li (@ (class "fade-text")) " ")
+                            (li ,(link "About" "/about.html"))
+			    (li ,(link "Blog" "/index.html"))
+                            (li ,(link "Learning" "/learning.html"))
+			    (li ,(link "Contributions" "/contributions.html"))
+			    (li ,(link "Media" "/media.html")))))
+	      (div (@ (class "container"))
+                   (div (@ (class "yav"))
+                        (ul
+			 (li (@ (class "fade-text")) " ")
+			 (li ,(link "C" "/c.html"))
+			 (li ,(link "Common Lisp" "/common-lisp.html"))
+			 (li ,(link "Coq" "/coq.html"))
+			 (li ,(link "F#" "/fsharp.html"))
+			 (li ,(link "F*" "/fstar.html"))
+			 (li ,(link "Haskell" "/haskell.html"))
+			 (li ,(link "OCaml" "/ocaml.html"))
+			 (li ,(link "Rust" "/rust.html"))
+			 (li ,(link "Scheme" "/scheme.html"))))
+	      ,body
+	      (footer (@ (class "text-center"))
+		      (p (@ (class "copyright"))
+			 "©2019 Brett Gilio"
+			 ,%cc-by-sa-button)
+		      (p "Made with "
+			 (a (@ (href "https://schemers.org/"))
+			    "λ")
+			 " using "
+			 (a (@ (href "https://gnu.org/software/guile"))
+			    "Guile Scheme")
+			 "."))))))
+         #:post-template
+         (lambda (post)
+           `((h1 (@ (class "title")),(post-ref post 'title))
+	     (div (@ (class "author")) ; XXX: fix class, and spacing
+		  ,(post-ref post 'author)
+		  " — " ; Em dash, long dash.
+                  ,(date->string (post-date post)
+                                 "~B ~d, ~Y"))
+             (div (@ (class "post"))
+                  ,(post-sxml post))))
+         #:collection-template
+         (lambda (site title posts prefix)
+           (define (post-uri post)
+             (string-append "/" (or prefix "")
+                            (site-post-slug site post) ".html"))
+
+           `((h1 ,title)
+             ,(map (lambda (post)
+                     (let ((uri (string-append "/"
+                                               (site-post-slug site post)
+                                               ".html")))
+                       `(div (@ (class "summary"))
+                             (h2 (a (@ (href ,uri))
+                                    ,(post-ref post 'title)))
+                             (div (@ (class "date"))
+                                  ,(date->string (post-date post)
+                                                 "~B ~d, ~Y"))
+                             (div (@ (class "post"))
+                                  ,(first-paragraph post))
+			     (div (@ (class "read"))
+				  (a (@ (href ,uri)) "read more ➔")))))
+                   posts)))))
+
