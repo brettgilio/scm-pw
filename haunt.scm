@@ -181,3 +181,87 @@
 (define (raw-snippet code)
   `(pre (code ,(if (string? code) code (read-string code)))))
 
+(define c-page
+  (static-page
+   "C"
+   "c.html"
+   `((h1 "C")
+     (p (i ("Coming soon..."))))))
+
+(define haskell-page
+  (static-page
+   "Haskell"
+   "haskell.html"
+   `((h1 "Haskell")
+     (p (i ("Coming soon..."))))))
+
+(define coq-page
+  (static-page
+   "Coq"
+   "coq.html"
+   `((h1 "Coq")
+     (p (i ("Coming soon..."))))))
+
+(define fsharp-page
+  (static-page
+   "F#"
+   "fsharp.html"
+   `((h1 "F#")
+     (p (i ("Coming soon..."))))))
+
+(define fstar-page
+  (static-page
+   "F*"
+   "fstar.html"
+   `((h1 "F*")
+     (p (i ("Coming soon..."))))))
+
+(define common-lisp-page
+  (static-page
+   "Common Lisp"
+   "common-lisp.html"
+   `((h1 "Common Lisp")
+     (p (i ("Coming soon..."))))))
+
+(define ocaml-page
+  (static-page
+   "OCaml"
+   "ocaml.html"
+   `((h1 "OCaml")
+     (p (i ("Coming soon..."))))))
+
+(define rust-page
+  (static-page
+   "Rust"
+   "rust.html"
+   `((h1 "Rust")
+     (p (i ("Coming soon..."))))))
+
+(define scheme-page
+  (static-page
+   "Scheme"
+   "scheme.html"
+   `((h1 "Scheme")
+     (p (i ("Coming soon..."))))))
+
+(define learning-page
+  (static-page
+   "Learning"
+   "learning.html"
+   `((h1 "Learning")
+     (p (i ("Coming soon..."))))))
+
+(define contributions-page
+  (static-page
+   "Contributions"
+   "contributions.html"
+   `((h1 "Contributions")
+     (p (i ("Coming soon..."))))))
+
+(define media-page
+  (static-page
+   "Media"
+   "media.html"
+   `((h1 "Media")
+     (p (i ("Coming soon..."))))))
+
