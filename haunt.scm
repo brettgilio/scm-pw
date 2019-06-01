@@ -145,3 +145,39 @@
 				  (a (@ (href ,uri)) "read more ➔")))))
                    posts)))))
 
+(define %collections
+  `(("Recent Entries" "index.html" ,posts/reverse-chronological)))
+
+(define parse-lang
+  (let ((rx (make-regexp "-*-[ ]+([a-z]*)[ ]+-*-")))
+    (lambda (port)
+      (let ((line (read-line port)))
+        (match:substring (regexp-exec rx line) 1)))))
+
+(define (maybe-highlight-code lang source)
+  (let ((lexer (match lang
+                 ('scheme lex-scheme)
+                 ('xml    lex-xml)
+                 ('c      lex-c)
+                 (_ #f))))
+    (if lexer
+        (highlights->sxml (highlight lexer source))
+        source)))
+
+(define (sxml-identity . args) args)
+
+(define (highlight-code . tree)
+  (sxml-match tree
+    ((code (@ (class ,class) . ,attrs) ,source)
+     (let ((lang (string->symbol
+                  (string-drop class (string-length "language-")))))
+       `(code (@ ,@attrs)
+             ,(maybe-highlight-code lang source))))
+    (,other other)))
+
+(define (highlight-scheme code)
+  `(pre (code ,(highlights->sxml (highlight lex-scheme code)))))
+
+(define (raw-snippet code)
+  `(pre (code ,(if (string? code) code (read-string code)))))
+
