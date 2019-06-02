@@ -181,6 +181,39 @@
 (define (raw-snippet code)
   `(pre (code ,(if (string? code) code (read-string code)))))
 
+;; Markdown doesn't support video, so let's hack around that!  Find
+;; <img> tags with a ".webm" source and substitute a <video> tag.
+(define (media-hackery . tree)
+  (sxml-match tree
+    ((img (@ (src ,src) . ,attrs) . ,body)
+     (if (string-suffix? ".webm" src)
+         `(video (@ (src ,src) (controls "true"),@attrs) ,@body)
+         tree))))
+
+(define %commonmark-rules
+  `((code . ,highlight-code)
+    (img . ,media-hackery)
+    (*text* . ,(lambda (tag str) str))
+    (*default* . ,sxml-identity)))
+
+(define (post-process-commonmark sxml)
+  (pre-post-order sxml %commonmark-rules))
+
+(define commonmark-reader*
+  (make-reader (make-file-extension-matcher "md")
+               (lambda (file)
+                 (call-with-input-file file
+                   (lambda (port)
+                     (values (read-metadata-headers port)
+                             (post-process-commonmark
+                              (commonmark->sxml port))))))))
+
+(define (static-page title file-name body)
+  (lambda (site posts)
+    (make-page file-name
+               (with-layout scm-pw-theme site title body)
+               sxml->html)))
+
 (define c-page
   (static-page
    "C"
@@ -265,3 +298,85 @@
    `((h1 "Media")
      (p (i ("Coming soon..."))))))
 
+(define projects-page
+  (static-page
+   "Projects"
+   "projects.html"
+   `((h1 "Projects")
+     (p (i ("Coming soon..."))))))
+
+(define brett-cv-page
+  (static-page
+   "Brett Gilio, C.V."
+   "cv.html"
+   `((div (@ (class "resume-name"))
+	  (h2 "Brett M. Gilio")
+	  (div (@ (class "resume-sub-name"))
+	       "5309 Michigan Ave")
+	  (div (@ (class "resume-sub-name"))
+	       "Kansas City, MO 64130"))
+     (div (@ (class "resume-contact"))
+	  "M: +1 816(668-9215) | E: brettg@posteo.net")
+     (div (@ (class "resume-update"))
+	  "Last Updated: May 5th, 2019")
+     (div (@ (class "resume-category"))
+	  "Education")
+     (div (@ (class "resume-education"))
+	  (span (@ (class "floatleft"))
+		"University of Missouri - Kansas City")
+	  (span (@ (class "floatright"))
+		"Add years"))
+     (br)
+     (div (@ (class "resume-education"))
+	  (span (@ (class "educ"))
+		"Bachelor of Science - Biology")
+	  (br)
+	  (span (@ (class "educit"))
+		"Minor in Chemistry"))
+     (br)
+          (div (@ (class "resume-education"))
+	  (span (@ (class "floatleft"))
+		"University of Missouri - Kansas City")
+	  (span (@ (class "floatright"))
+		"Add years"))
+     (br)
+     (div (@ (class "resume-education"))
+	  (span (@ (class "educ"))
+		"Bachelor of Music - Music Composition"))
+     (div (@ (class "resume-category"))
+	  "Work Experience")
+     (div (@ (class "resume-category"))
+	  "Research Experience"))))
+  
+(site #:title "'(SCM.PW)"
+      #:domain "scm.pw"
+      #:default-metadata
+      '((author . "Brett Gilio")
+        (email  . "brettg@posteo.net"))
+      #:readers (list commonmark-reader*)
+      #:builders (list (blog #:theme scm-pw-theme #:collections %collections)
+                       (atom-feed)
+                       (atom-feeds-by-tag)
+                       about-page
+		       brett-cv-page
+                       projects-page
+		       c-page
+		       common-lisp-page
+		       coq-page
+		       fsharp-page
+		       fstar-page
+		       haskell-page
+		       ocaml-page
+		       rust-page
+		       scheme-page
+		       learning-page
+		       contributions-page
+		       media-page
+                       ;(static-directory "js")
+                       (static-directory "css")
+                       (static-directory "fonts")
+                       (static-directory "images")
+                       (static-directory "videos")
+                       (static-directory "src")
+                       (static-directory "manuals")
+		       (static-directory "keys")))
